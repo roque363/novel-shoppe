@@ -1,40 +1,33 @@
+import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import prettier from 'eslint-plugin-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
 import importPlugin from 'eslint-plugin-import';
 import tailwind from 'eslint-plugin-tailwindcss';
-import tseslint from 'typescript-eslint';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import prettierConfig from 'eslint-config-prettier';
 
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  reactHooks.configs['recommended-latest'],
+  reactRefresh.configs.vite,
+  // Archivos TS/TSX
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      'plugin:prettier/recommended',
-    ],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: { ...globals.browser, ...globals.es2021 },
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
+      parserOptions: { ecmaFeatures: { jsx: true } },
     },
     plugins: {
-      prettier,
+      prettier: prettierPlugin,
       import: importPlugin,
-      tailwind,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      tailwindcss: tailwind,
     },
     settings: {
       'import/resolver': {
@@ -46,14 +39,15 @@ export default defineConfig([
       tailwindcss: { callees: ['cn', 'cva'] },
     },
     rules: {
-      /* Prettier */
+      // Prettier
       'prettier/prettier': ['warn', {}, { usePrettierrc: true }],
-      /* React Hooks */
+
+      // React
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      /* Vite Fast Refresh */
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      /* Import rules */
+
+      // Import sorting
       'import/no-unresolved': 'error',
       'import/order': [
         'warn',
@@ -64,19 +58,14 @@ export default defineConfig([
             ['parent', 'sibling', 'index', 'object'],
             'type',
           ],
-          pathGroups: [
-            {
-              pattern: '@root/**',
-              group: 'internal',
-              position: 'before',
-            },
-          ],
+          pathGroups: [{ pattern: '@root/**', group: 'internal', position: 'before' }],
           pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
-      /* TS quality-of-life */
+
+      // TS QoL
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
@@ -85,9 +74,11 @@ export default defineConfig([
         'warn',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
-      /* Tailwind (v4-ready via @beta) */
+
+      // Tailwind
       'tailwindcss/classnames-order': 'warn',
       'tailwindcss/no-custom-classname': 'off',
     },
   },
+  prettierConfig,
 ]);
