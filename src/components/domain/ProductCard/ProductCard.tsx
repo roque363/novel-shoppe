@@ -19,7 +19,7 @@ const ProductCard = (props: ProductCardType) => {
 
   return (
     <article
-      key={p.id}
+      aria-label="product-card"
       className="border-border bg-card text-card-foreground flex flex-col justify-between rounded-lg border p-0 transition hover:shadow-sm md:p-3"
     >
       <button
