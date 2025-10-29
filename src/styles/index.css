@@ -3,6 +3,7 @@
 @plugin 'tailwindcss-animate';
 @import './theme-map.css';
 @import './layout.css';
+@import './sonner.css';
 
 @import 'tailwindcss';
 

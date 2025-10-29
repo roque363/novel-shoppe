@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import AppHeader from '@root/components/common/AppHeader';
-import { Toaster } from '@root/components/ui/sonner';
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
       <footer className="layout__footer">
         <p>© {new Date().getFullYear()} NovelShoppe</p>
       </footer>
-      <Toaster />
     </div>
   );
 }

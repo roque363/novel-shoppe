@@ -1,0 +1,15 @@
+:root {
+  --sonner-toast-background: var(--card);
+  --sonner-toast-border: var(--border);
+  --sonner-toast-color: var(--foreground);
+  --sonner-success: var(--primary);
+  --sonner-error: oklch(0.65 0.2 25);
+  --sonner-warning: var(--accent);
+  --sonner-info: var(--secondary);
+}
+
+.dark {
+  --sonner-toast-background: var(--card);
+  --sonner-toast-border: var(--border);
+  --sonner-toast-color: var(--foreground);
+}

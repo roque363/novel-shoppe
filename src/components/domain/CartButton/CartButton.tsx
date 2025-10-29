@@ -10,7 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@root/components/ui/sheet';
+import { notify } from '@root/lib/notify';
 import { useCart, useCartCount, useCartSubtotal } from '@root/stores/cart';
+import type { Product } from '@root/types/domain/product';
 
 export function CartButton() {
   const items = useCart((s) => s.items);
@@ -46,29 +48,32 @@ export function CartButton() {
           ) : (
             <div className="mb-0 flex h-full flex-col">
               <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
-                {items.map((it) => (
+                {items.map((p) => (
                   <div
-                    key={it.id}
+                    key={p.id}
                     className="border-border flex items-center gap-3 rounded-md border p-2"
                   >
                     <div className="border-border size-14 overflow-hidden rounded border">
-                      <img src={it.image} alt={it.title} className="h-full w-full object-cover" />
+                      <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium">{it.title}</div>
-                      <div className="text-muted-foreground text-xs">{it.categoryName}</div>
+                      <div className="truncate text-sm font-medium">{p.title}</div>
+                      <div className="text-muted-foreground text-xs">{p.categoryName}</div>
                       <div className="text-sm font-semibold">
                         {new Intl.NumberFormat('es-PE', {
                           style: 'currency',
                           currency: 'PEN',
-                        }).format(it.price)}
+                        }).format(p.price)}
                       </div>
                     </div>
                     <Button
                       variant="link"
                       size="icon"
                       aria-label="Eliminar"
-                      onClick={() => remove(it.id)}
+                      onClick={() => {
+                        remove(p.id);
+                        notify.removed(p as Product);
+                      }}
                     >
                       <TrashIcon className="size-5 stroke-gray-500" />
                     </Button>
@@ -86,7 +91,13 @@ export function CartButton() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between gap-2">
-                  <Button variant="outline" onClick={clear}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      clear();
+                      notify.cleared();
+                    }}
+                  >
                     Vaciar
                   </Button>
                   <Button className="w-full" disabled>

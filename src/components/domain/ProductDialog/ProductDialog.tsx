@@ -12,6 +12,7 @@ import {
 } from '@root/components/ui/dialog';
 import { Separator } from '@root/components/ui/separator';
 import { useProduct } from '@root/hooks/useProduct';
+import { notify } from '@root/lib/notify';
 import { useCart, useInCart } from '@root/stores/cart';
 
 type ProductDialogProps = {
@@ -128,6 +129,7 @@ const ProductDialog = (props: ProductDialogProps) => {
               <Button
                 onClick={() => {
                   add(data);
+                  notify.added(data);
                 }}
               >
                 Agregar al carrito
@@ -137,6 +139,7 @@ const ProductDialog = (props: ProductDialogProps) => {
                 variant="outline"
                 onClick={() => {
                   remove(data.id);
+                  notify.removed(data);
                 }}
               >
                 Eliminar del carrito
