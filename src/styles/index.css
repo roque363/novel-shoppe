@@ -1,0 +1,18 @@
+@import './tokens.css';
+
+@plugin 'tailwindcss-animate';
+@import './theme-map.css';
+@import './layout.css';
+
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
