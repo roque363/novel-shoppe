@@ -11,7 +11,12 @@ import type { Product } from '@root/types/domain/product';
 const Home = () => {
   const [selected, setSelected] = useState<Product | null>(null);
 
-  const { data, isLoading, isError, error, refetch } = useProducts({ limit: 10, offset: 0 });
+  const { data, isLoading, isError, error, refetch } = useProducts({
+    limit: 8,
+    offset: 0,
+    price_min: 5,
+    price_max: 90,
+  });
 
   if (isLoading) {
     return (
@@ -65,7 +70,6 @@ const Home = () => {
           productId={selected.id}
           open={!!selected}
           onOpenChange={(o) => !o && setSelected(null)}
-          // onAddToCart={(p) => useCart.getState().add(p)}
         />
       ) : null}
     </section>

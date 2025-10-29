@@ -1,16 +1,20 @@
 import { EyeIcon } from 'lucide-react';
 
 import { Button } from '@root/components/ui/button';
+import { useCart, useInCart } from '@root/stores/cart';
 import type { Product } from '@root/types/domain/product';
 
 interface ProductCardType {
   product: Product;
-  handleAddToBag?: () => void;
   handleQuickview?: () => void;
 }
 
 const ProductCard = (props: ProductCardType) => {
-  const { product: p, handleAddToBag, handleQuickview } = props;
+  const { product: p, handleQuickview = () => null } = props;
+
+  const inCart = useInCart(p.id);
+  const add = useCart((s) => s.add);
+  const remove = useCart((s) => s.remove);
 
   return (
     <article
@@ -41,9 +45,15 @@ const ProductCard = (props: ProductCardType) => {
         </div>
       </button>
       <div className="mt-2 flex items-center gap-2">
-        <Button className="flex-1" onClick={handleAddToBag}>
-          Agregar
-        </Button>
+        {!inCart ? (
+          <Button className="flex-1" onClick={() => add(p)}>
+            Agregar
+          </Button>
+        ) : (
+          <Button variant="outline" className="flex-1" onClick={() => remove(p.id)}>
+            Eliminar
+          </Button>
+        )}
         <Button
           variant="outline"
           size="icon"

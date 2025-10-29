@@ -12,23 +12,26 @@ import {
 } from '@root/components/ui/dialog';
 import { Separator } from '@root/components/ui/separator';
 import { useProduct } from '@root/hooks/useProduct';
-import type { Product } from '@root/types/domain/product';
+import { useCart, useInCart } from '@root/stores/cart';
 
 type ProductDialogProps = {
-  productId: number | string;
+  productId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAddToCart?: (p: Product) => void;
 };
 
 const ProductDialog = (props: ProductDialogProps) => {
-  const { productId, open, onOpenChange, onAddToCart } = props;
+  const { productId, open, onOpenChange } = props;
   const { data, isLoading, isError, error, refetch } = useProduct(productId);
   const images = useMemo(
     () => (data?.images?.length ? data.images : [data?.image].filter(Boolean)),
     [data]
   );
   const [active, setActive] = useState(0);
+
+  const inCart = useInCart(productId);
+  const add = useCart((s) => s.add);
+  const remove = useCart((s) => s.remove);
 
   useEffect(() => {
     if (!open) setActive(0);
@@ -121,20 +124,24 @@ const ProductDialog = (props: ProductDialogProps) => {
             <Button variant="ghost" onClick={() => onOpenChange(false)}>
               Cerrar
             </Button>
-            <Button
-              disabled={!data}
-              onClick={() => {
-                if (!data) return;
-                if (onAddToCart) onAddToCart(data);
-                else {
-                  // TODO: reemplazar por tu store real (Zustand)
-                  console.log('[ADD_TO_CART]', data.id);
-                }
-                onOpenChange(false);
-              }}
-            >
-              Agregar al carrito
-            </Button>
+            {data && !inCart ? (
+              <Button
+                onClick={() => {
+                  add(data);
+                }}
+              >
+                Agregar al carrito
+              </Button>
+            ) : data ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  remove(data.id);
+                }}
+              >
+                Eliminar del carrito
+              </Button>
+            ) : null}
           </div>
         </DialogFooter>
       </DialogContent>
