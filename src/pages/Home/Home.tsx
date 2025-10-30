@@ -12,7 +12,7 @@ const Home = () => {
   const [selected, setSelected] = useState<Product | null>(null);
 
   const { data, isLoading, isError, error, refetch } = useProducts({
-    limit: 8,
+    limit: 12,
     offset: 0,
     price_min: 5,
     price_max: 90,
