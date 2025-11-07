@@ -5,7 +5,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/novel-shoppe/',
+  base: '/novel-shoppe',
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
