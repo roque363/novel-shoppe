@@ -8,7 +8,7 @@ const NotFound = lazy(() => import('@root/pages/NotFound'));
 
 const routes: RouteObject[] = [
   {
-    path: '/',
+    path: '/novel-shoppe/',
     element: <App />,
     children: [
       { index: true, element: <Home /> },
