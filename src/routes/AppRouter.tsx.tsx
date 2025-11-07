@@ -8,7 +8,7 @@ const NotFound = lazy(() => import('@root/pages/NotFound'));
 
 const routes: RouteObject[] = [
   {
-    path: '/novel-shoppe/',
+    path: '/',
     element: <App />,
     children: [
       { index: true, element: <Home /> },
@@ -17,4 +17,4 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(routes, { basename: '/novel-shoppe' });
