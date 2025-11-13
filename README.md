@@ -20,7 +20,7 @@ Incluye gestión de carrito, modo claro/oscuro, notificaciones interactivas y un
 ## 🌍 Demo
 
 Despliegue en **AWS Amplify**  
-🔗 **Deploy:** [https://main.d1wurkdbk7baj1.amplifyapp.com/](https://main.d1wurkdbk7baj1.amplifyapp.com/)
+🔗 **Deploy:** [https://roque363.github.io/novel-shoppe/](https://roque363.github.io/novel-shoppe/)
 
 ---
 
